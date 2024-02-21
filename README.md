@@ -38,7 +38,7 @@ docker run -itd --name qubic-cpu --restart=always \
 	-e name=矿机名称 \
 	-e token="钱包地址"  \
 	-e num=使用线程数  \
-	qubic-CPU:latest
+	qubic-cpu:latest
 ```
 
 ## GPU 挖矿
@@ -50,7 +50,7 @@ docker run -itd --name qubic-gpu  --gpus all --restart=always \
 	-e name=矿机名称 \
 	-e token="钱包地址"  \
 	-e num=使用线程数  \
-	qubic-GPU:latest
+	qubic-gpu:latest
 ```
 
 ## 卸载挖矿
