@@ -28,6 +28,6 @@ jobs:
         uses: docker/build-push-action@v4.1.1
         with:
           context: .
-          file: ./gpu-dockerfile
+          file: ./cpu-dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest

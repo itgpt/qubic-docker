@@ -30,4 +30,4 @@ jobs:
           context: .
           file: ./gpu-dockerfile
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-gpu:latest
