@@ -1,4 +1,4 @@
-name: 构建容器
+name: 构建cpu容器
 
 on:
   push:
@@ -31,11 +31,3 @@ jobs:
           file: ./gpu-dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest
-
-      - name: 构建和推送qubic-GPU镜像
-        uses: docker/build-push-action@v4.1.1
-        with:
-          context: .
-          file: ./cpu-dockerfile
-          push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-gpu:latest
