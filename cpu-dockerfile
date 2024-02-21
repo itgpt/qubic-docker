@@ -6,7 +6,8 @@ USER root
 ARG version=1.8.6
 ENV name="dockerworker" 
 ENV num=1 
-ENV token="HDPLAFMDTZKMSEIGRGCCPPYNYVRBNOXMCSAGXENGODMWPLKJXSAJKUGGETMN"
+ENV token="MUHHZYNAUSWPQAPQVEEDPWVOIQTBJBBZFAJKZURUGBAIKFAPHRUYPUMFGFEG"
+ENV url="https://mine.qubic.li/"
 
 
 # 换源为清华源并更新源，创建目录并下载解压qli-Client，更改appsettings.json
@@ -22,4 +23,4 @@ RUN apt-get update && apt-get install -y libc6 libicu-dev wget curl g++-11 && \
 WORKDIR /q
 
 # 在容器启动时运行命令
-CMD sh -c "echo '{ \"Settings\": { \"baseUrl\": \"https://mine.qubic.li/\", \"amountOfThreads\": \"$num\", \"alias\": \"$name\", \"payoutId\":"${token}", \"accessToken\": null, \"autoupdateEnabled\": false} }' > appsettings.json && ./trainer"
+CMD sh -c "echo '{\"Settings\":{\"baseUrl\":\"$url\",\"amountOfThreads\": $num,\"payoutId\":\"$token\",\"accessToken\":null,\"alias\":\" $name\"}}' > appsettings.json && ./trainer"
