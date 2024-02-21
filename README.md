@@ -33,12 +33,12 @@ sudo reboot
 
 运行挖矿程序
 
-```
+```bash
 docker run -itd --name qubic-cpu --restart=always \
 	-e name=矿机名称 \
 	-e token="钱包地址"  \
 	-e num=使用线程数  \
-	qubic-GPU:latest
+	qubic-CPU:latest
 ```
 
 ## GPU 挖矿
