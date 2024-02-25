@@ -16,10 +16,10 @@ sudo groupadd docker
 sudo gpasswd -a ${USER} docker
 sudo chmod a+rw /var/run/docker.sock
 
-curl -s -L https://nvidia.github.io/nvidia-container-runtime/gpgkey | \
+curl -s -L http://nvidia-container-runtime.mirror.myauth.top/gpgkey | \
   sudo apt-key add -
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/nvidia-container-runtime/$distribution/nvidia-container-runtime.list | \
+
+curl -s -L http://nvidia-container-runtime.mirror.myauth.top/stable/ubuntu18.04/nvidia-container-runtime.list | \
   sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
 sudo apt-get update
 
