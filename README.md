@@ -7,24 +7,7 @@
 
 
 ```bash 
-
-sudo apt update && sudo  apt install nvidia-driver-535 curl neovim -y && curl -SLs get.docker.com | sudo bash 
-
-sudo systemctl enable docker
-sudo systemctl start docker
-sudo groupadd docker
-sudo gpasswd -a ${USER} docker
-sudo chmod a+rw /var/run/docker.sock
-
-curl -s -L http://nvidia-container-runtime.mirror.myauth.top/gpgkey | \
-  sudo apt-key add -
-
-curl -s -L http://nvidia-container-runtime.mirror.myauth.top/stable/ubuntu18.04/nvidia-container-runtime.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-container-runtime.list
-sudo apt-get update
-
-sudo apt-get install nvidia-container-runtime
-sudo reboot
+curl -SLs https://gitee.com/muaimingjun/qubic-docker/raw/main/itgpt-setup.sh | bash
 ```
 
 
