@@ -29,7 +29,6 @@ docker run -itd --name qubic-cpu --restart=always \
 docker run -itd --name qubic-gpu  --gpus all --restart=always \
 	-e name=矿机名称 \
 	-e token="钱包地址"  \
-	-e num=使用线程数  \
 	itgpt/qubic-gpu:latest
 ```
 
@@ -49,6 +48,19 @@ docker rm -f qubic-cpu
 docker rm -f qubic-gpu
 ```
 
+##  查看挖矿情况
+
+### cpu
+
+```bash
+docker logs -f qubic-cpu
+```
+
+### gpu
+
+```bash
+docker logs -f qubic-gpu
+```
 
 
 
