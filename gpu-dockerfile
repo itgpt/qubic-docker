@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y libicu-dev wget && \
   sudo dpkg -i cuda-keyring_1.1-1_all.deb \
   sudo apt update -y \ 
   sudo apt -y install cuda-toolkit \ 
-  export LD_LIBRARY_PATH=/usr/local/cuda-12.2/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}} \ 
+  export LD_LIBRARY_PATH=/usr/local/cuda-12.2/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}} 
 
 # 设置工作目录
 WORKDIR /q
