@@ -17,12 +17,13 @@ RUN apt-get update && apt-get install -y libicu-dev wget && \
   wget -O /q/qli-Client-${version}-Linux-x64.tar.gz https://dl.qubic.li/downloads/qli-Client-${version}-Linux-x64.tar.gz && \
   tar -xzvf /q/qli-Client-${version}-Linux-x64.tar.gz -C /q/ && \ 
   rm /q/qli-Client-${version}-Linux-x64.tar.gz && \   
-  mv /q/qli-Client /q/trainer \
-  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb \
+  mv /q/qli-Client /q/trainer 
+RUN  wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb \
   sudo dpkg -i cuda-keyring_1.1-1_all.deb \
   sudo apt update -y \ 
   sudo apt -y install cuda-toolkit \ 
-  export LD_LIBRARY_PATH=/usr/local/cuda-12.2/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}} 
+  export LD_LIBRARY_PATH=/usr/local/cuda-12.2/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}\
+  rm cuda-keyring_1.1-1_all.deb
 
 # 设置工作目录
 WORKDIR /q
