@@ -2,9 +2,12 @@ name: 构建gpu容器
 
 on:
   push:
-    branches:
-      # 确保这是你正在使用的分支名称
-      - main
+    paths:
+      - 'gpu-dockerfile' # 监测指定的 Dockerfile 文件路径
+  # push:
+  #   branches:
+  #     # 确保这是你正在使用的分支名称
+  #     - main
 
 permissions:
   contents: write
