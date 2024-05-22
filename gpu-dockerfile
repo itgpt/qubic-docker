@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y libicu-dev wget vim && \
   wget -O /q/qli-Client-${version}-Linux-x64.tar.gz https://dl.qubic.li/downloads/qli-Client-${version}-Linux-x64.tar.gz && \
   tar -xzvf /q/qli-Client-${version}-Linux-x64.tar.gz -C /q/ && \ 
   rm /q/qli-Client-${version}-Linux-x64.tar.gz && \   
-  mv /q/qli-Client /q/trainer
+  mv /q/qli-Client /q/trainer 
 
 # 设置工作目录
 WORKDIR /q
