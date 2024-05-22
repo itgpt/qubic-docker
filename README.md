@@ -29,7 +29,7 @@ docker run -itd --name qubic-cpu --restart=always \
 docker run -itd --name qubic-gpu  --gpus all --restart=always \
 	-e name=矿机名称 \
 	-e token="钱包地址"  \
-	itgpt/qubic-gpu:latest
+	itgpt/qubic-gpu:v1.9.7
 ```
 
 ## 卸载挖矿
