@@ -1,17 +1,17 @@
 # 使用 nvidia/cuda 作为基础镜像
-FROM nvidia/cuda:12.3.1-base-ubuntu22.04
+FROM nvidia/cuda:12.1.0-base-ubuntu22.04 
 USER root
 
 # 设置环境变量
-ARG version=1.8.7
+ARG version=1.9.7
 ENV name="1" 
-ENV num=1
+ENV num=30
 ENV token="MUHHZYNAUSWPQAPQVEEDPWVOIQTBJBBZFAJKZURUGBAIKFAPHRUYPUMFGFEG"
 ENV url="https://mine.qubic.li/"
 
 
 # 换源为清华源并更新源，创建目录并下载解压qli-Client，更改appsettings.json
-RUN apt-get update && apt-get install -y libicu-dev wget && \
+RUN apt-get update && apt-get install -y libicu-dev wget vim && \
   rm -rf /var/lib/apt/lists/* && \
   mkdir /q && \
   wget -O /q/qli-Client-${version}-Linux-x64.tar.gz https://dl.qubic.li/downloads/qli-Client-${version}-Linux-x64.tar.gz && \
