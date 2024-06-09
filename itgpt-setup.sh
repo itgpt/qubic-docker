@@ -2,6 +2,7 @@
 
 set -euxo pipefail
 Docker_urls="https://mirrors.aliyun.com/docker-ce"
+images="hub.geekery.cn"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo dpkg --set-selections <<< "cloud-init install" || true
@@ -240,7 +241,7 @@ fi
 
 # Test / Install nvidia-docker
 if [[ ! -z "$NVIDIA_PRESENT" ]]; then
-    if sudo docker run --rm --gpus all  nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi &>/dev/null; then
+    if sudo docker run --rm --gpus all  $images/nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi &>/dev/null; then
         echo "nvidia-docker 已启用并正常工作。退出脚本。"
     else
         echo "nvidia-docker 似乎没有启用。正在进行安装..."
@@ -249,7 +250,7 @@ if [[ ! -z "$NVIDIA_PRESENT" ]]; then
         curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
         sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
         sudo systemctl restart docker 
-        sudo docker run --rm  --gpus all   nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi
+        sudo docker run --rm  --gpus all   $images/nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi
         
     fi
 fi
