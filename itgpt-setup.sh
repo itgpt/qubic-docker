@@ -291,5 +291,7 @@ EOF'
 
 # Restart Docker to apply changes.
 sudo systemctl restart docker
+# 强制删除使用 nvidia/cuda:11.0.3-base-ubuntu18.04 镜像的容器
+sudo docker ps -a | grep "nvidia/cuda:11.0.3-base-ubuntu18.04" | awk '{print $1}' | xargs -r docker rm -f
 sudo docker rmi nvidia/cuda:11.0.3-base-ubuntu18.04
 echo "已应用解决方法。Docker 已配置为使用“cgroupfs”作为 cgroup 驱动程序。"
