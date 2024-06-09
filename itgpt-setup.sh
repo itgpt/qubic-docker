@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -euxo pipefail
+Docker_urls = "https://mirrors.aliyun.com/docker-ce"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo dpkg --set-selections <<< "cloud-init install" || true
@@ -159,7 +160,7 @@ else
                                 ;;
 
                             *)
-                                echo "This version of Debian is not supported in this script."
+                                echo "此脚本不支持此版本的 Debian。"
                                 exit 1
                                 ;;
                         esac
@@ -200,7 +201,7 @@ fi
 
 # Check if Docker is installed
 if command -v docker &>/dev/null; then
-    echo "Docker is already installed."
+    echo "Docker 已安装。"
 else
     echo "未安装 Docker。正在进行安装..."
     # Install Docker-ce keyring
@@ -211,12 +212,14 @@ else
     if [ -f "$FILE" ]; then
         sudo rm "$FILE"
     fi
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o "$FILE"
+    
+    # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o "$FILE"
+    curl -fsSL $Docker_urls/linux/ubuntu/gpg | sudo gpg --dearmor -o "$FILE"
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
     # Add Docker-ce repository to Apt sources and install
     echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] $Docker_urls/linux/ubuntu \
       $(. /etc/os-release; echo "$VERSION_CODENAME") stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt update -y
@@ -225,9 +228,9 @@ fi
 
 # Check if docker-compose is installed
 if command -v docker-compose &>/dev/null; then
-    echo "Docker-compose is already installed."
+    echo "Docker-compose 已安装。"
 else
-    echo "Docker-compose is not installed. Proceeding with installations..."
+    echo "未安装 Docker-compose。正在进行安装..."
 
     # Install docker-compose subcommand
     sudo apt -y install docker-compose-plugin
@@ -238,15 +241,16 @@ fi
 # Test / Install nvidia-docker
 if [[ ! -z "$NVIDIA_PRESENT" ]]; then
     if sudo docker run --gpus all nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi &>/dev/null; then
-        echo "nvidia-docker is enabled and working. Exiting script."
+        echo "nvidia-docker 已启用并正常工作。退出脚本。"
     else
-        echo "nvidia-docker does not seem to be enabled. Proceeding with installations..."
+        echo "nvidia-docker 似乎没有启用。正在进行安装..."
         distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
         curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add
         curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
         sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
         sudo systemctl restart docker 
         sudo docker run --gpus all nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi
+        
     fi
 fi
 sudo apt-mark hold nvidia* libnvidia*
@@ -266,16 +270,26 @@ echo "根据 https://github.com/NVIDIA/nvidia-docker/issues/1730 应用NVIDIA Do
 # Edit the Docker daemon configuration.
 sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
 {
-   "runtimes": {
-       "nvidia": {
-           "path": "nvidia-container-runtime",
-           "runtimeArgs": []
-       }
-   },
-   "exec-opts": ["native.cgroupdriver=cgroupfs"]
+	"exec-opts": [
+		"native.cgroupdriver=cgroupfs"
+	],
+	"registry-mirrors": [
+		"https://hub-mirror.c.163.com",
+		"https://docker.m.daocloud.io",
+		"https://ghcr.io",
+		"https://mirror.baidubce.com",
+		"https://docker.nju.edu.cn"
+	],
+	"runtimes": {
+		"nvidia": {
+			"path": "nvidia-container-runtime",
+			"runtimeArgs": []
+		}
+	}
 }
 EOF'
 
 # Restart Docker to apply changes.
 sudo systemctl restart docker
+sudo docker rmi nvidia/cuda:11.0.3-base-ubuntu18.04
 echo "已应用解决方法。Docker 已配置为使用“cgroupfs”作为 cgroup 驱动程序。"
