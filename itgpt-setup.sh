@@ -2,7 +2,6 @@
 
 set -euxo pipefail
 Docker_urls="https://mirrors.aliyun.com/docker-ce"
-images="hub.geekery.cn"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo dpkg --set-selections <<< "cloud-init install" || true
@@ -239,9 +238,11 @@ else
     docker-compose --version
 fi
 
+
+images="hub.geekery.cn/nvidia/cuda:11.0.3-base-ubuntu18.04"
 # Test / Install nvidia-docker
 if [[ ! -z "$NVIDIA_PRESENT" ]]; then
-    if sudo docker run --rm --gpus all  $images/nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi &>/dev/null; then
+    if sudo docker run --rm --gpus all  $images nvidia-smi &>/dev/null; then
         echo "nvidia-docker 已启用并正常工作。退出脚本。"
     else
         echo "nvidia-docker 似乎没有启用。正在进行安装..."
@@ -250,7 +251,7 @@ if [[ ! -z "$NVIDIA_PRESENT" ]]; then
         curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
         sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
         sudo systemctl restart docker 
-        sudo docker run --rm  --gpus all   $images/nvidia/cuda:11.0.3-base-ubuntu18.04 nvidia-smi
+        sudo docker run --rm  --gpus all   $images nvidia-smi
         
     fi
 fi
@@ -275,6 +276,7 @@ sudo bash -c 'cat <<EOF > /etc/docker/daemon.json
 		"native.cgroupdriver=cgroupfs"
 	],
 	"registry-mirrors": [
+		"https://hub.geekery.cn",
 		"https://hub-mirror.c.163.com",
 		"https://docker.m.daocloud.io",
 		"https://ghcr.io",
@@ -294,5 +296,5 @@ EOF'
 sudo systemctl restart docker
 # 强制删除使用 nvidia/cuda:11.0.3-base-ubuntu18.04 镜像的容器
 sudo docker ps -a | grep "nvidia/cuda:11.0.3-base-ubuntu18.04" | awk '{print $1}' | xargs -r docker rm -f
-sudo docker rmi nvidia/cuda:11.0.3-base-ubuntu18.04
+sudo docker rmi $images
 echo "已应用解决方法。Docker 已配置为使用“cgroupfs”作为 cgroup 驱动程序。"
