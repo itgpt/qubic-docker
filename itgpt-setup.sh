@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -euxo pipefail
-Docker_urls="https://mirrors.aliyun.com/docker-ce"
+# Docker_urls="https://mirrors.aliyun.com/docker-ce"
+Docker_urls="https://mirrors.ustc.edu.cn/docker-ce/"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo dpkg --set-selections <<< "cloud-init install" || true
