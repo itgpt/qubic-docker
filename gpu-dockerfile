@@ -24,3 +24,7 @@ WORKDIR /q
 
 # 在容器启动时运行命令
 CMD sh -c "echo '{\"Settings\": {\"baseUrl\": \"$url\",\"amountOfThreads\": $num,\"payoutId\": \"$token\",\"accessToken\": null,\"overwrites\": {\"CUDA\": \"12\"},\"allowHwInfoCollect\": true,\"alias\": \"$name\"}}' > appsettings.json && ./trainer"
+
+# 构建编译和推送
+# docker build -f gpu-dockerfile -t itgpt/qubic-gpu:latest .
+# docker push itgpt/qubic-gpu:latest
