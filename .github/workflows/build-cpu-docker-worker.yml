@@ -33,4 +33,4 @@ jobs:
           docker buildx inspect --bootstrap
 
       - name: 构建和推送 qubic-CPU 镜像
-        run: docker buildx build --file ./cpu-dockerfile --platform linux/amd64,linux/arm64,linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USERNAME }}/qubic-cpu:latest --push .
+        run: docker buildx build --file ./cpu-dockerfile --platform linux/amd64,linux/arm64,linux/arm/v7 --tag ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest --push .
