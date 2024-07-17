@@ -1,13 +1,10 @@
-name: 构建cpu容器
+name: 构建多平台容器
+
 on:
   push:
     paths:
       - 'cpu-dockerfile' # 监测指定的 Dockerfile 文件路径
-  # push:
-  #   branches:
-  #     # 确保这是你正在使用的分支名称
-  #     - main
-      
+
 permissions:
   contents: write
 
@@ -15,22 +12,25 @@ jobs:
   publish-docker:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉源码
+      - name: 拉取源码
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
 
-      - name: 登陆到DockerHub
+      - name: 登录到 DockerHub
         uses: docker/login-action@v2
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 构建和推送qubic-CPU镜像
-        uses: docker/build-push-action@v4.1.1
-        with:
-          context: .
-          file: ./cpu-dockerfile
-          push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest
-          platforms: linux/amd64,linux/arm64,linux/arm/v7 # 支持 AMD64 和 ARM 架构
+      - name: 设置 QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: 设置 Docker Buildx
+        run: |
+          docker buildx create --name mybuilder
+          docker buildx use mybuilder
+          docker buildx inspect --bootstrap
+
+      - name: 构建和推送 qubic-CPU 镜像
+        run: docker buildx build --file ./cpu-dockerfile --platform linux/amd64,linux/arm64,linux/arm/v7 --tag ${{ secrets.DOCKERHUB_USERNAME }}/qubic-cpu:latest --push .
