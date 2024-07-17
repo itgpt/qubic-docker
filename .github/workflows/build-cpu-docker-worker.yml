@@ -33,5 +33,4 @@ jobs:
           file: ./cpu-dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest
-
-          # platforms: linux/amd64,linux/arm64,linux/arm/v7 # 支持 AMD64 和 ARM 架构
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 # 支持 AMD64 和 ARM 架构
