@@ -1,5 +1,4 @@
 name: 构建cpu容器
-
 on:
   push:
     paths:
@@ -34,4 +33,8 @@ jobs:
           file: ./cpu-dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/qubic-cpu:latest
+<<<<<<< HEAD
           # platforms: linux/amd64,linux/arm64,linux/arm/v7 # 支持 AMD64 和 ARM 架构
+=======
+          platforms: linux/amd64,linux/arm64,linux/arm/v7 # 支持 AMD64 和 ARM 架构
+>>>>>>> ea02e86fa70beaa8b7b001db53ab314a8a5aaf88

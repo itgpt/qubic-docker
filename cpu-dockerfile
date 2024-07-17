@@ -23,3 +23,5 @@ RUN apt-get update && apt-get install -y libc6 libicu-dev wget curl g++-11 && \
 WORKDIR /q
 # 在容器启动时运行命令
 CMD sh -c "echo '{\"Settings\":{\"baseUrl\":\"$url\",\"amountOfThreads\": $num,\"payoutId\":\"$token\",\"accessToken\":null,\"alias\":\" $name\",\"allowHwInfoCollect\": false,}}' > appsettings.json && ./trainer"
+
+
