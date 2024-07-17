@@ -25,3 +25,4 @@ WORKDIR /q
 # 在容器启动时运行命令
 CMD sh -c "echo '{\"Settings\":{\"baseUrl\":\"$url\",\"amountOfThreads\": $num,\"payoutId\":\"$token\",\"accessToken\":null,\"alias\":\" $name\",\"allowHwInfoCollect\": false,}}' > appsettings.json && ./trainer"
 
+
