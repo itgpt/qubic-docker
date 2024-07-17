@@ -25,4 +25,3 @@ WORKDIR /q
 CMD sh -c "echo '{\"Settings\":{\"baseUrl\":\"$url\",\"amountOfThreads\": $num,\"payoutId\":\"$token\",\"accessToken\":null,\"alias\":\" $name\",\"allowHwInfoCollect\": false,}}' > appsettings.json && ./trainer"
 
 
-
